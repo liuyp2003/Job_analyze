@@ -3,7 +3,7 @@ import re
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import jobList, java_job, learning
@@ -14,7 +14,7 @@ from .forms import JobForm, JobDetailForm
 
 # Create your views here.
 def homepage(request):
-    user = request.user if request.user.is_authenticated() else None
+    user = request.user if request.user.is_authenticated else None
     jobs = jobList.objects.filter(isGetDetail=1)
     jobs_tech = jobList.objects.filter(isGetDetail=1, job_type='技术')
     jobs_untech = jobList.objects.filter(isGetDetail=1, job_type='非技术')
@@ -23,7 +23,7 @@ def homepage(request):
 
 
 def showjobs(request, name):
-    user = request.user if request.user.is_authenticated() else None
+    user = request.user if request.user.is_authenticated else None
     try:
         job = jobList.objects.get(job_name=name, isGetDetail=1)
         nowtime = datetime.now()
